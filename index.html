@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<script src="//d3js.org/d3.v3.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto+Condensed">
+<!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ --><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+
+<style>
+
+text {
+  font: 10px "Roboto Condensed", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+button {
+  margin-left: 10px;
+  font: 14px "Roboto Condensed", "Helvetica Neue", Helvetica, sans-serif;
+  padding: 5px 5px 5px 5px;
+  border: 1px solid #666;
+  float:left;
+  color:#000;
+  text-decoration:none;
+  background: #dcdcdc url(icon.png) no-repeat scroll 5px center;
+}
+
+button:target {
+  background: black;
+}
+
+.bar {
+  fill: #ADD8E6;
+}
+
+.bar text {
+  fill: #fff;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.buttons {
+  font: 10px "Roboto Condensed", "Helvetica Neue", Helvetica, sans-serif;
+position:relative;
+}
+
+</style>
+
+<body>
+  <div id="hist"></div>
+  <div id="buttons" class="btn-group btn-group-center" role="group" aria-label="...">
+    <button id="Minimum wage" class="btn btn-default" onclick="updateData(this.id)">Minimum wage</button>
+    <button id="Transgender rights" class="btn btn-default" onclick="updateData(this.id)">Transgender rights</button>
+    <button id="Marijuana legalization" class="btn btn-default" onclick="updateData(this.id)">Marijuana legalization</button>
+    <button id="University policy" class="btn btn-default" onclick="updateData(this.id)">University policy</button>
+    <button id="Mandatory minimum sentence" class="btn btn-default" onclick="updateData(this.id)">Mandatory minimum sentence</button>
+    <button id="Iran deal" class="btn btn-default" onclick="updateData(this.id)">Iran deal</button>
+    <button id="TPP" class="btn btn-default" onclick="updateData(this.id)">TPP</button>
+    <button id="Assault weapons" class="btn btn-default" onclick="updateData(this.id)">Assault weapons</button>
+    <button id="Voter IDs" class="btn btn-default" onclick="updateData(this.id)">Voter IDs</button>
+    <button id="Affirmative action" class="btn btn-default" onclick="updateData(this.id)">Affirmative action</button>
+    <button id="Refugees" class="btn btn-default" onclick="updateData(this.id)">Refugees</button>
+    <button id="Energy" class="btn btn-default" onclick="updateData(this.id)">Energy</button>
+    <button id="Israel" class="btn btn-default" onclick="updateData(this.id)">Israel</button>
+    <button id="Saudi Arabia" class="btn btn-default" onclick="updateData(this.id)">Saudi Arabia</button>
+    <button id="Divestment" class="btn btn-default" onclick="updateData(this.id)">Divestment</button>
+  </div>
+
+<script>
+
+
+// size + margin vars
+var margin = {top: 60, right: 20, bottom: 40, left: 50},
+    width = 480 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
+
+// bar width var
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], 0.03);
+
+// func for y size
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+// func for x axis
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom")
+    .tickFormat(function(d) { return ["0","Strongly Support", "Support", "Neutral", "Oppose", "Strongly oppose"][d]});
+
+// func for y axis
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+// create svg
+var svg = d3.select("#hist").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// title
+svg.append("text")
+        .attr("class", "title")
+        .attr("x", 0)             
+        .attr("y", -35)
+        .attr("text-anchor", "left")  
+        .style("font-size", "20px") 
+        .text("Political Opinions of Tufts Undergraduates" );
+        
+svg.append("text")
+        .attr("class", "subtitle")
+        .attr("x", 0)            
+        .attr("y", -13)
+        .style("font-size", "16px")
+        .attr("fill", "#989898")
+        .text("Do you support/oppose a minimum wage increase?");
+  
+
+// input data - *HOST DEPENDENT*
+d3.tsv("Minimum wage.tsv", type, function(error, data) {
+  x.domain(data.map(function(d) { return d["opposition level"]; }));
+  y.domain([0, d3.max(data, function(d) { return d["count"]; })]);
+
+  // x axis params
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+    .append("text")
+      .attr("y", 22)
+      .attr("x", width/2)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .style("font-size", "16px")
+      .text("Position");
+
+  // y axis params
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 2- margin.left)
+      .attr("x", 10 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .style("font-size", "16px")
+      .text("Number of students");
+
+  // graphing data
+  svg.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d["opposition level"]); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d["count"]); })
+      .attr("height", function(d) { return height - y(d["count"]); })
+});
+
+lookup = {
+  "Transgender rights": "Do you support/oppose transgender rights?", 
+  "Israel": "Do you support/oppose U.S. support for Israel?", 
+  "Iran deal": "Do you support/oppose the Iran deal?", 
+  "TPP": "Do you support/oppose the TPP (trans-pacific partnership)?", 
+  "Marijuana legalization": "Do you support/oppose marijuana legalization?", 
+  "Saudi Arabia": "Do you support/oppose U.S. support for Saudi Arabia?", 
+  "University policy": "Last November, students at the Woodrow Wilson School of Princeton demanded that the university re...", 
+  "Affirmative action": "Do you support/oppose affirmative action?", 
+  "Voter IDs": "Do you support/oppose requiring a photo ID to vote?", 
+  "Minimum wage": "Do you support/oppose a minimum wage increase?", 
+  "Assault weapons": "Do you support/oppose a ban on assault rifles?", 
+  "Mandatory minimum sentence": "Do you support/oppose mandatory minimum sentences?", 
+  "Healthcare": "Do you support/oppose single-payer healthcare?", 
+  "Divestment": "Do you support/oppose Tufts divesting from fossil fuels?", 
+  "Refugees": "Do you support/oppose accepting refugees from Syria?", 
+  "Energy": "Do you support/oppose subsidizing energy sources such as wind, solar, and hydro?"
+}
+
+function updateData(id) {
+    // Get the data again
+      d3.tsv(id+".tsv", type, function(error, data) {
+        console.log(data);
+        x.domain(data.map(function(d) { return d["opposition level"]; }));
+        y.domain([0, d3.max(data, function(d) { return d["count"]; })]);
+
+    svg.selectAll(".bar").data(data).transition().duration(750)
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d["opposition level"]); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d["count"]); })
+      .attr("height", function(d) { return height - y(d["count"]);});
+
+
+    // title
+    svg.selectAll(".title")
+        .text("Political Opinions of Tufts Undergraduates" );
+
+
+    // subtitle
+    svg.selectAll(".subtitle")
+        .text(lookup[id]);
+
+
+      });
+
+
+    };
+
+function type(d) {
+  d["count"] = +d["count"];
+  return d;
+}
+
+
+</script>
