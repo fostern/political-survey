@@ -3,8 +3,13 @@
 
 <script src="//d3js.org/d3.v3.min.js"></script>
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto+Condensed">
+<<<<<<< HEAD
 <!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
  --><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+=======
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+>>>>>>> gh-pages
 
 
 <style>
@@ -24,6 +29,13 @@ button {
   background: #dcdcdc url(icon.png) no-repeat scroll 5px center;
 }
 
+<<<<<<< HEAD
+=======
+.subtitle {
+  width: 500px;
+}
+
+>>>>>>> gh-pages
 button:target {
   background: black;
 }
@@ -50,24 +62,43 @@ position:relative;
 </style>
 
 <body>
-  <div id="hist"></div>
+
+<div class="container">
+
+    <div id="hist"></div>
+
   <div id="buttons" class="btn-group btn-group-center" role="group" aria-label="...">
-    <button id="Minimum wage" class="btn btn-default" onclick="updateData(this.id)">Minimum wage</button>
-    <button id="Transgender rights" class="btn btn-default" onclick="updateData(this.id)">Transgender rights</button>
-    <button id="Marijuana legalization" class="btn btn-default" onclick="updateData(this.id)">Marijuana legalization</button>
-    <button id="University policy" class="btn btn-default" onclick="updateData(this.id)">University policy</button>
-    <button id="Mandatory minimum sentence" class="btn btn-default" onclick="updateData(this.id)">Mandatory minimum sentence</button>
-    <button id="Iran deal" class="btn btn-default" onclick="updateData(this.id)">Iran deal</button>
-    <button id="TPP" class="btn btn-default" onclick="updateData(this.id)">TPP</button>
-    <button id="Assault weapons" class="btn btn-default" onclick="updateData(this.id)">Assault weapons</button>
-    <button id="Voter IDs" class="btn btn-default" onclick="updateData(this.id)">Voter IDs</button>
-    <button id="Affirmative action" class="btn btn-default" onclick="updateData(this.id)">Affirmative action</button>
-    <button id="Refugees" class="btn btn-default" onclick="updateData(this.id)">Refugees</button>
-    <button id="Energy" class="btn btn-default" onclick="updateData(this.id)">Energy</button>
-    <button id="Israel" class="btn btn-default" onclick="updateData(this.id)">Israel</button>
-    <button id="Saudi Arabia" class="btn btn-default" onclick="updateData(this.id)">Saudi Arabia</button>
-    <button id="Divestment" class="btn btn-default" onclick="updateData(this.id)">Divestment</button>
+    <div class="row">
+      <button id="Minimum wage" class="btn btn-default" onclick="updateData(this.id)">Minimum wage</button>
+      <button id="Transgender rights" class="btn btn-default" onclick="updateData(this.id)">Transgender rights</button>
+      <button id="Marijuana legalization" class="btn btn-default" onclick="updateData(this.id)">Marijuana legalization</button>
+      <button id="Woodrow Wilson Building" class="btn btn-default" onclick="updateData(this.id)">Woodrow Wilson Building</button>
+
+      </div>
+      <div class="row">
+
+        <button id="Mandatory minimum sentence" class="btn btn-default" onclick="updateData(this.id)">Mandatory minimum sentence</button>
+        <button id="Iran deal" class="btn btn-default" onclick="updateData(this.id)">Iran deal</button>
+        <button id="TPP" class="btn btn-default" onclick="updateData(this.id)">TPP</button>
+        <button id="Assault weapons" class="btn btn-default" onclick="updateData(this.id)">Assault weapons</button>
+      </div>
+      <div class="row">
+        <button id="Voter IDs" class="btn btn-default" onclick="updateData(this.id)">Voter IDs</button>
+        <button id="Affirmative action" class="btn btn-default" onclick="updateData(this.id)">Affirmative action</button>
+        <button id="Refugees" class="btn btn-default" onclick="updateData(this.id)">Refugees</button>
+        <button id="Energy" class="btn btn-default" onclick="updateData(this.id)">Energy</button>
+      </div>
+      <div class="row">
+        <button id="Israel" class="btn btn-default" onclick="updateData(this.id)">Israel</button>
+        <button id="Saudi Arabia" class="btn btn-default" onclick="updateData(this.id)">Saudi Arabia</button>
+        <button id="Divestment" class="btn btn-default" onclick="updateData(this.id)">Divestment</button>
+    </div>
+
+      </div>
+    </div>
   </div>
+
+</div>
 
 <script>
 
@@ -170,7 +201,7 @@ lookup = {
   "TPP": "Do you support/oppose the TPP (trans-pacific partnership)?", 
   "Marijuana legalization": "Do you support/oppose marijuana legalization?", 
   "Saudi Arabia": "Do you support/oppose U.S. support for Saudi Arabia?", 
-  "University policy": "Last November, students at the Woodrow Wilson School of Princeton demanded that the university re...", 
+  "Woodrow Wilson Building": "If Tufts students wanted to rename a building, would you support it?", 
   "Affirmative action": "Do you support/oppose affirmative action?", 
   "Voter IDs": "Do you support/oppose requiring a photo ID to vote?", 
   "Minimum wage": "Do you support/oppose a minimum wage increase?", 
