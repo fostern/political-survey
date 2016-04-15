@@ -58,8 +58,8 @@ position:relative;
 
   <div id="buttons" class="btn-group btn-group-center" role="group" aria-label="...">
     <div class="row">
-      <button id="Minimum wage" class="btn btn-default" onclick="updateData(this.id)">Minimum wage</button>
       <button id="Transgender rights" class="btn btn-default" onclick="updateData(this.id)">Transgender rights</button>
+      <button id="Minimum wage" class="btn btn-default" onclick="updateData(this.id)">Minimum wage</button>
       <button id="Marijuana legalization" class="btn btn-default" onclick="updateData(this.id)">Marijuana legalization</button>
       <button id="Woodrow Wilson Building" class="btn btn-default" onclick="updateData(this.id)">Woodrow Wilson Building</button>
 
@@ -109,7 +109,7 @@ var y = d3.scale.linear()
 var xAxis = d3.svg.axis()
     .scale(x)
     .orient("bottom")
-    .tickFormat(function(d) { return ["0","Strongly Support", "Support", "Neutral", "Oppose", "Strongly oppose"][d]});
+    .tickFormat(function(d) { return ["0","Strongly Support", "Support", "Neutral", "Oppose", "Strongly Oppose"][d]});
 
 // func for y axis
 var yAxis = d3.svg.axis()
@@ -138,13 +138,13 @@ svg.append("text")
         .attr("y", -13)
         .style("font-size", "16px")
         .attr("fill", "#989898")
-        .text("Do you support/oppose a minimum wage increase?");
+        .text("Do you support/oppose transgender rights?");
   
 
 // input data - *HOST DEPENDENT*
-d3.tsv("Minimum wage.tsv", type, function(error, data) {
+d3.tsv("Transgender rights.tsv", type, function(error, data) {
   x.domain(data.map(function(d) { return d["opposition level"]; }));
-  y.domain([0, d3.max(data, function(d) { return d["count"]; })]);
+  y.domain([0, 220.0]);
 
   // x axis params
   svg.append("g")
@@ -190,7 +190,7 @@ lookup = {
   "TPP": "Do you support/oppose the TPP (trans-pacific partnership)?", 
   "Marijuana legalization": "Do you support/oppose marijuana legalization?", 
   "Saudi Arabia": "Do you support/oppose U.S. support for Saudi Arabia?", 
-  "Woodrow Wilson Building": "If Tufts students wanted to rename a building, would you support it?", 
+  "Woodrow Wilson Building": "Do you support the renaming a building with racist history?", 
   "Affirmative action": "Do you support/oppose affirmative action?", 
   "Voter IDs": "Do you support/oppose requiring a photo ID to vote?", 
   "Minimum wage": "Do you support/oppose a minimum wage increase?", 
@@ -199,15 +199,14 @@ lookup = {
   "Healthcare": "Do you support/oppose single-payer healthcare?", 
   "Divestment": "Do you support/oppose Tufts divesting from fossil fuels?", 
   "Refugees": "Do you support/oppose accepting refugees from Syria?", 
-  "Energy": "Do you support/oppose subsidizing energy sources such as wind, solar, and hydro?"
+  "Energy": "Do you support/oppose subsidizing energy sources?"
 }
 
 function updateData(id) {
     // Get the data again
       d3.tsv(id+".tsv", type, function(error, data) {
-        console.log(data);
         x.domain(data.map(function(d) { return d["opposition level"]; }));
-        y.domain([0, d3.max(data, function(d) { return d["count"]; })]);
+        y.domain([0, 220.0]);
 
     svg.selectAll(".bar").data(data).transition().duration(750)
       .attr("class", "bar")
@@ -216,20 +215,14 @@ function updateData(id) {
       .attr("y", function(d) { return y(d["count"]); })
       .attr("height", function(d) { return height - y(d["count"]);});
 
-
     // title
     svg.selectAll(".title")
         .text("Political Opinions of Tufts Undergraduates" );
 
-
     // subtitle
     svg.selectAll(".subtitle")
         .text(lookup[id]);
-
-
       });
-
-
     };
 
 function type(d) {
