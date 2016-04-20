@@ -197,7 +197,7 @@ var legend = svg.append("g")
 legend
       .append('g')
       .append("rect")
-          .attr("x", width - 85)
+          .attr("x", width - 100)
           .attr("y", 10)
           .attr("width", 10)
           .attr("height", 10)
@@ -205,7 +205,7 @@ legend
 legend
       .append('g')
       .append("rect")
-          .attr("x", width - 85)
+          .attr("x", width - 100)
           .attr("y", 30)
           .attr("width", 10)
           .attr("height", 10)
@@ -213,19 +213,19 @@ legend
 
 
 svg.append("text")
-        .attr("x", width - 65)            
+        .attr("x", width - 85)            
         .attr("y", 19)
         .style("font-size", "10px")
         .attr("fill", "#989898")
-        .text("National opinion");
+        .text("National majority opinion");
 
 
 svg.append("text")
-        .attr("x", width - 65)            
+        .attr("x", width - 85)            
         .attr("y", 38)
         .style("font-size", "10px")
         .attr("fill", "#989898")
-        .text("Tufts opinion");
+        .text("Tufts opinions");
 
 
 
