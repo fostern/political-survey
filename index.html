@@ -5,6 +5,8 @@
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto+Condensed">
 
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
 
@@ -29,9 +31,16 @@ button:target {
   background: black;
 }
 
-.bar {
-  fill: #ADD8E6;
+.legend {
+  padding: 5px;
+  font: 10px sans-serif;
+  background: yellow;
+  box-shadow: 2px 2px 1px #888;
 }
+
+.bar {
+/*  fill: #ADD8E6;
+*/}
 
 .bar text {
   fill: #fff;
@@ -48,6 +57,36 @@ button:target {
 position:relative;
 }
 
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+
 </style>
 
 <body>
@@ -55,6 +94,7 @@ position:relative;
 <div class="container">
 
     <div id="hist"></div>
+
 
   <div id="buttons" class="btn-group btn-group-center" role="group" aria-label="...">
     <div class="row">
@@ -77,10 +117,13 @@ position:relative;
         <button id="Refugees" class="btn btn-default" onclick="updateData(this.id)">Refugees</button>
         <button id="Energy" class="btn btn-default" onclick="updateData(this.id)">Energy</button>
       </div>
+      </div>      
       <div class="row">
         <button id="Israel" class="btn btn-default" onclick="updateData(this.id)">Israel</button>
         <button id="Saudi Arabia" class="btn btn-default" onclick="updateData(this.id)">Saudi Arabia</button>
         <button id="Divestment" class="btn btn-default" onclick="updateData(this.id)">Divestment</button>
+        <button id="Healthcare" class="btn btn-default" onclick="updateData(this.id)">Healthcare</button>
+
     </div>
 
       </div>
@@ -139,7 +182,52 @@ svg.append("text")
         .style("font-size", "16px")
         .attr("fill", "#989898")
         .text("Do you support/oppose transgender rights?");
-  
+
+
+// add legend
+var legend = svg.append("g")
+  .attr("class", "legend")
+  .attr("x", width - 65)
+  .attr("y", 25)
+  .attr("height", 100)
+  .attr("width", 100);
+
+
+
+legend
+      .append('g')
+      .append("rect")
+          .attr("x", width - 85)
+          .attr("y", 10)
+          .attr("width", 10)
+          .attr("height", 10)
+          .style("fill", "red");
+legend
+      .append('g')
+      .append("rect")
+          .attr("x", width - 85)
+          .attr("y", 30)
+          .attr("width", 10)
+          .attr("height", 10)
+          .style("fill", "#ADD8E6");
+
+
+svg.append("text")
+        .attr("x", width - 65)            
+        .attr("y", 19)
+        .style("font-size", "10px")
+        .attr("fill", "#989898")
+        .text("National opinion");
+
+
+svg.append("text")
+        .attr("x", width - 65)            
+        .attr("y", 38)
+        .style("font-size", "10px")
+        .attr("fill", "#989898")
+        .text("Tufts opinion");
+
+
 
 // input data - *HOST DEPENDENT*
 d3.tsv("Transgender rights.tsv", type, function(error, data) {
@@ -179,6 +267,7 @@ d3.tsv("Transgender rights.tsv", type, function(error, data) {
       .attr("class", "bar")
       .attr("x", function(d) { return x(d["opposition level"]); })
       .attr("width", x.rangeBand())
+      .attr("fill",function(d,i){return d["opposition level"] == d["national"] ? "red" : "#ADD8E6"})
       .attr("y", function(d) { return y(d["count"]); })
       .attr("height", function(d) { return height - y(d["count"]); })
 });
@@ -213,6 +302,7 @@ function updateData(id) {
       .attr("x", function(d) { return x(d["opposition level"]); })
       .attr("width", x.rangeBand())
       .attr("y", function(d) { return y(d["count"]); })
+      .attr("fill",function(d,i){return  d["opposition level"] == d["national"] ? "red" : "#ADD8E6"})
       .attr("height", function(d) { return height - y(d["count"]);});
 
     // title
